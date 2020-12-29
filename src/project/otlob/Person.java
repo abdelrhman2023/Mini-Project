@@ -33,5 +33,5 @@ public abstract class Person {
     public String getPassword() {
         return Password;
     }
-
+    
 }

@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package project.otlob;
+
+import static java.lang.System.out;
+import java.util.ArrayList;
+
 /**
  *
  * @author A.S.A
@@ -34,5 +38,18 @@ public class Customer extends Person {
         return Address;
     }
     
+    public void Register(ArrayList<Customer> customer){
+        customer.add(this);
+    }
+    
+    public void Login(ArrayList<Customer> customer){
+        for(int i=0 ; i<customer.size() ; i++){
+            if(customer.get(i).equals(this)){
+               out.println("you are already registered");
+               return;
+            }
+        }
+        out.println("There is an error, Please try again");
+    }
     
 }
