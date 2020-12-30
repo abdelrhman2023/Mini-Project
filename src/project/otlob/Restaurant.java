@@ -12,7 +12,6 @@ import java.util.*;
 public class Restaurant {
     private String RestaurantName;
     private String location;
-    private String rate;
     private List<Meal> meals ;
 
     public Restaurant(String RestaurantName, String location) {
@@ -43,16 +42,6 @@ public class Restaurant {
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
-
-    public String getRate() {
-        return rate;
-    }
-
-    public void setRate(String rate) {
-        this.rate = rate;
-    }
-    
-    
     
     
 }

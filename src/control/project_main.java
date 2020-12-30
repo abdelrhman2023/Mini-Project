@@ -15,23 +15,24 @@ import project.otlob.*;
  * @author A.S.A
  */
 public class project_main {
-    
-    static Scanner input = new Scanner(System.in);
-    static Owner w ;
-    static Customer c ;
-    static ArrayList<Owner> owner = new ArrayList<Owner>();
-    static ArrayList<Customer> customer = new ArrayList<Customer>();
+    public static String name , password , type , restaurant , phone , address ;
+    public static int id_w , id_c ;
+    public static Scanner input = new Scanner(System.in);
+    public static Owner w ;
+    public static Customer c ;
+    public static Restaurant r ;
+    public static List<Owner> owner = new ArrayList<>();
+    public static List<Customer> customer = new ArrayList<>();
     
     /*-----------------------------------------------------------------------*/
     
     public static void MainRegister(){
-        String name , password , type , restaurant , phone , address ;
+            out.println("Please Enter Your Type( owner / customer ): ");
+            type     = input.next();
             out.println("Please Enter Your Name: ");
             name     = input.next();
             out.println("Please Enter Your Password: ");
             password = input.next();
-            out.println("Please Enter Your Type( owner / customer ): ");
-            type     = input.next();
             if(null == type){
                 out.println("Please enter the type correctly.");
             }
@@ -39,9 +40,14 @@ public class project_main {
             case "owner":
                 out.println("Please Enter Name Of Restaurant: ");
                 restaurant = input.next();
-                w = new Owner(restaurant, name, password);
+                out.println("Please Enter Location Of Restaurant: ");
+                address    = input.next();
+                r.setRestaurantName(restaurant);
+                r.setLocation(address);
+                w = new Owner(r, name, password);
                 w.Register(owner);
                 break;
+                
             case "customer":
                 out.println("Please Enter Your Mobile Number: ");
                 phone    = input.next();
@@ -54,36 +60,28 @@ public class project_main {
                 out.println("Please enter the type correctly.");
                 break;
         }
-            out.println("Your Registeration Is Successfully");
     }
     
     /*----------------------------------------------------------------------*/
     
     public static void MainLogin(){
-        String name , password , type , restaurant , phone , address ;
+            out.println("Please Enter Your Type( owner / customer ): ");
+            type     = input.next();
             out.println("Please Enter Your Name: ");
             name     = input.next();
             out.println("Please Enter Your Password: ");
             password = input.next();
-            out.println("Please Enter Your Type( owner / customer ): ");
-            type     = input.next();
             if(null == type){
                 out.println("Please enter the type correctly.");
             }
             else switch (type) {
             case "owner":
-                out.println("Please Enter Name Of Restaurant: ");
-                restaurant = input.next();
-                w = new Owner(restaurant, name, password); 
-                w.Login(owner);
+                w = new Owner(name,password); 
+                id_w = w.Login(owner);
                 break;
             case "customer":
-                out.println("Please Enter Your Mobile Number: ");
-                phone    = input.next();
-                out.println("Please Enter Your Address: ");
-                address  = input.next();
-                c = new Customer(phone,address,name,password);
-                c.Login(customer);
+                c = new Customer(name,password);
+                id_c = c.Login(customer);
                 break;
             default:
                 out.println("Please enter the type correctly.");

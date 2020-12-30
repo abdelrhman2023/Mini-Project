@@ -6,8 +6,7 @@
 package project.otlob;
 
 import static java.lang.System.out;
-import java.util.ArrayList;
-
+import java.util.*;
 /**
  *
  * @author A.S.A
@@ -16,6 +15,10 @@ public class Customer extends Person {
     private String MobileNumber;
     private String Address;
 
+    public Customer( String UserName, String Password) {
+        super(UserName, Password);
+    }
+    
     public Customer(String MobileNumber, String Address, String UserName, String Password) {
         super(UserName, Password);
         this.MobileNumber = MobileNumber;
@@ -38,18 +41,20 @@ public class Customer extends Person {
         return Address;
     }
     
-    public void Register(ArrayList<Customer> customer){
+    public void Register(List<Customer> customer){
         customer.add(this);
+        out.println("Your Registeration Is Successfully");
     }
     
-    public void Login(ArrayList<Customer> customer){
+    public int Login(List<Customer> customer){
         for(int i=0 ; i<customer.size() ; i++){
-            if(customer.get(i).equals(this)){
+            if(customer.get(i).getUserName().equals(this.getUserName()) && customer.get(i).getPassword().equals(this.getPassword())){
                out.println("you are already registered");
-               return;
+               return i;
             }
         }
         out.println("There is an error, Please try again");
+        return -1;
     }
     
 }
