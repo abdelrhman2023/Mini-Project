@@ -5,6 +5,7 @@
  */
 package project.otlob;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -13,10 +14,10 @@ import java.util.logging.Logger;
  */
 public class Meal {
     private String Name;
-    private String Price;
-    private String Describtion;
+    private int Price;
+    public String Describtion;
 
-    public Meal(String Name, String Price, String Describtion) {
+    public Meal(String Name, int Price, String Describtion) {
         this.Name = Name;
         this.Price = Price;
         this.Describtion = Describtion;
@@ -26,7 +27,7 @@ public class Meal {
         this.Name = Name;
     }
 
-    public void setPrice(String Price) {
+    public void setPrice(int Price) {
         this.Price = Price;
     }
 
@@ -38,13 +39,11 @@ public class Meal {
         return Name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return Price;
     }
 
     public String getDescribtion() {
         return Describtion;
     }
-    
-
 }

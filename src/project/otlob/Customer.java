@@ -5,6 +5,7 @@
  */
 package project.otlob;
 
+import control.project_main;
 import static java.lang.System.out;
 import java.util.*;
 /**
@@ -41,14 +42,15 @@ public class Customer extends Person {
         return Address;
     }
     
-    public void Register(List<Customer> customer){
-        customer.add(this);
+    public void Register(){
+        project_main.customer.add(this);
         out.println("Your Registeration Is Successfully");
     }
     
-    public int Login(List<Customer> customer){
-        for(int i=0 ; i<customer.size() ; i++){
-            if(customer.get(i).getUserName().equals(this.getUserName()) && customer.get(i).getPassword().equals(this.getPassword())){
+    public int Login(){
+        
+        for(int i=0 ; i<project_main.customer.size() ; i++){
+            if(project_main.customer.get(i).getUserName().equals(this.getUserName()) && project_main.customer.get(i).getPassword().equals(this.getPassword())){
                out.println("you are already registered");
                return i;
             }

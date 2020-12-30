@@ -4,19 +4,28 @@
  * and open the template in the editor.
  */
 package project.otlob;
+
 import java.util.*;
+
 /**
  *
  * @author A.S.A
  */
 public class Restaurant {
+
     private String RestaurantName;
     private String location;
-    private List<Meal> meals ;
+    public List<Meal> meals = new ArrayList<>();
 
     public Restaurant(String RestaurantName, String location) {
         this.RestaurantName = RestaurantName;
         this.location = location;
+    }
+
+    public Restaurant(String RestaurantName, String location, List<Meal> meals) {
+        this.RestaurantName = RestaurantName;
+        this.location = location;
+        this.meals = meals;
     }
 
     public String getRestaurantName() {
@@ -42,6 +51,5 @@ public class Restaurant {
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
-    
-    
+
 }
