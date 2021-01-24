@@ -6,13 +6,14 @@
 package project.otlob;
 
 import control.project_main;
+import static control.project_main.id_c;
 import static java.lang.System.out;
-import java.util.*;
 /**
  *
  * @author A.S.A
  */
 public class Customer extends Person {
+    private double MrCard = 1000.0;
     private String MobileNumber;
     private String Address;
 
@@ -25,6 +26,8 @@ public class Customer extends Person {
         this.MobileNumber = MobileNumber;
         this.Address = Address;
     }
+    
+    
     
     public void setMobileNumber(String MobileNumber) {
         this.MobileNumber = MobileNumber;
@@ -41,6 +44,16 @@ public class Customer extends Person {
     public String getAddress() {
         return Address;
     }
+    
+    public double getMrCard() {
+        return MrCard;
+    }
+
+    public void setMrCard(double MrCard) {
+        this.MrCard += MrCard;
+    }
+    
+    
     
     public void Register(){
         project_main.customer.add(this);
@@ -59,4 +72,95 @@ public class Customer extends Person {
         return -1;
     }
     
+    
+    
+    
+    public void View_Restaurant(){
+        out.println("**---------------------------Restaurants---------------------------**");
+        for(int i=0 ; i<project_main.owner.size() ; i++){
+         out.println("("+(i+1)+") "+project_main.owner.get(i).getResturant().getRestaurantName());
+        }
+    }
+    
+    public void View_Meals(int id){
+        out.println("**-------------------------\\/\\/Meals\\/\\/---------------------------**");
+        for(int i=0 ; i<project_main.owner.get(id).getResturant().getMeals().size() ; i++){
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
+         out.println("Name: "+project_main.owner.get(id).getResturant().getMeals().get(i).getName());
+         out.println("price: "+project_main.owner.get(id).getResturant().getMeals().get(i).getPrice());
+         out.println("Describtion: "+project_main.owner.get(id).getResturant().getMeals().get(i).getDescribtion());
+         out.println("*---------------------------------------------------------*");
+        }
+    }
+    
+    public void View_Menu(){
+        for(int i=0 ; i<project_main.owner.size() ; i++){
+         
+        out.println("**---------------------------("+project_main.owner.get(i).getResturant().getRestaurantName()+")---------------------------**");
+         
+         for(int j=0 ; j<project_main.owner.get(i).getResturant().getMeals().size() ; j++){
+         
+         out.println("*---------------------------("+(j+1)+")---------------------------*");
+         out.println("Name: "+project_main.owner.get(i).getResturant().getMeals().get(j).getName());
+         out.println("price: "+project_main.owner.get(i).getResturant().getMeals().get(j).getPrice());
+         out.println("Describtion: "+project_main.owner.get(i).getResturant().getMeals().get(j).getDescribtion());
+         out.println("*---------------------------------------------------------*");
+        
+         }
+        
+        } 
+    }
+    
+    public void View_Orders(int id){
+        out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
+        for(int i=0 ; i<project_main.owner.get(id).getResturant().getOrder().size() ; i++){
+         if(project_main.owner.get(id).getResturant().getOrder().get(i).getId_customer()==id_c){
+         out.println("*---------------------------("+(i++)+")---------------------------*");
+         out.println("Meal: "+project_main.owner.get(id).getResturant().getOrder().get(i).getMeal().getName());
+         out.println("quantity: "+project_main.owner.get(id).getResturant().getOrder().get(i).getQuantity());
+         out.println("price: "+project_main.owner.get(id).getResturant().getOrder().get(i).getOrder_P());
+         out.println("Date: "+project_main.owner.get(id).getResturant().getOrder().get(i).getDate());
+         out.println("*---------------------------------------------------------*");   
+         }
+        }
+    }
+    
+    public void Add_Orders(int id, Order m){
+        project_main.owner.get(id).getResturant().getOrder().add(m);
+    }
+    
+    public void Edit_Orders(int id, int i, Order m){
+        project_main.owner.get(id).getResturant().getOrder().set(i, m);
+    }
+    
+    public void Remove_Orders(int id , int i){
+        project_main.owner.get(id).getResturant().getOrder().remove(i);
+    }
+    
+    public void Bill(int id , int i){
+         out.println("*---------------------------(Bill Of Meal)---------------------------*");
+         out.println("Restaurant Name : "+project_main.owner.get(id).getResturant().getRestaurantName());
+         out.println("Meal: "+project_main.owner.get(id).getResturant().getOrder().get(i).getMeal().getName());
+         out.println("quantity: "+project_main.owner.get(id).getResturant().getOrder().get(i).getQuantity());
+         out.println("price: "+project_main.owner.get(id).getResturant().getOrder().get(i).getOrder_P());
+         out.println("Date: "+project_main.owner.get(id).getResturant().getOrder().get(i).getDate());
+         out.println("*---------------------------------------------------------*");
+    }
+    
+    public void View_Orders_C(){
+        out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
+        for(int i=0 ; i < project_main.owner.size() ; i++){
+            for(int j=0 , k=1 ; j < project_main.owner.get(i).getResturant().getOrder().size() ; j++){
+             if(project_main.owner.get(i).getResturant().getOrder().get(j).getId_customer()==id_c){
+             out.println("*---------------------------("+(k++)+")---------------------------*");
+             out.println("Restaurant Name : "+project_main.owner.get(i).getResturant().getRestaurantName());
+             out.println("Meal: "+project_main.owner.get(i).getResturant().getOrder().get(j).getMeal().getName());
+             out.println("quantity: "+project_main.owner.get(i).getResturant().getOrder().get(j).getQuantity());
+             out.println("price: "+project_main.owner.get(i).getResturant().getOrder().get(j).getOrder_P());
+             out.println("Date: "+project_main.owner.get(i).getResturant().getOrder().get(j).getDate());
+             out.println("*---------------------------------------------------------*");      
+            }
+          }
+        }
+    }
 }

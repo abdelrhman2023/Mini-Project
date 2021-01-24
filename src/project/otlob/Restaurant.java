@@ -15,7 +15,8 @@ public class Restaurant {
 
     private String RestaurantName;
     private String location;
-    public List<Meal> meals = new ArrayList<>();
+    private List<Meal> meals = new ArrayList<>();
+    private List<Order> order = new ArrayList<>();
 
     public Restaurant(String RestaurantName, String location) {
         this.RestaurantName = RestaurantName;
@@ -51,5 +52,14 @@ public class Restaurant {
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
     }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+    
 
 }

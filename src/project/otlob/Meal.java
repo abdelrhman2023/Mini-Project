@@ -14,10 +14,10 @@ import java.util.logging.Logger;
  */
 public class Meal {
     private String Name;
-    private int Price;
-    public String Describtion;
+    private double Price;
+    private String Describtion;
 
-    public Meal(String Name, int Price, String Describtion) {
+    public Meal(String Name, double Price, String Describtion) {
         this.Name = Name;
         this.Price = Price;
         this.Describtion = Describtion;
@@ -27,7 +27,7 @@ public class Meal {
         this.Name = Name;
     }
 
-    public void setPrice(int Price) {
+    public void setPrice(double Price) {
         this.Price = Price;
     }
 
@@ -39,7 +39,7 @@ public class Meal {
         return Name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return Price;
     }
 

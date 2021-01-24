@@ -6,8 +6,8 @@
 package project.otlob;
 
 import control.project_main;
+import static control.project_main.id_c;
 import static java.lang.System.out;
-import java.util.*;
 
 /**
  *
@@ -15,7 +15,8 @@ import java.util.*;
  */
 public class Owner extends Person {
     private Restaurant resturant ;
-
+ 
+    
     public Owner(String UserName, String Password) {
         super(UserName, Password);
     }
@@ -32,6 +33,7 @@ public class Owner extends Person {
     public void setResturant(Restaurant resturant) {
         this.resturant = resturant;
     }
+    
     
     public void Register(){
         project_main.owner.add(this);
@@ -50,25 +52,64 @@ public class Owner extends Person {
     }
     
     public void Edit_Add(Meal e){
-        this.resturant.meals.add(e);
-        
+        this.resturant.getMeals().add(e);
+        out.println("The meal was successfully added.\nThe New List: ");
+        for(int i=0 ; i<this.resturant.getMeals().size() ; i++){
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
+         out.println("Name: "+this.resturant.getMeals().get(i).getName());
+         out.println("price: "+this.resturant.getMeals().get(i).getPrice());
+         out.println("Describtion: "+this.resturant.getMeals().get(i).getDescribtion());
+         out.println("*---------------------------------------------------------*");
+        }
     }
     
-    public void Edit_Set(Meal e,int i){
-        this.resturant.meals.set(i,e);
+    public void Edit_Set(Meal e,int s){
+        this.resturant.getMeals().set(s,e);
+        out.println("The meal was successfully modified.\nThe New List: ");
+        for(int i=0 ; i<this.resturant.getMeals().size() ; i++){
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
+         out.println("Name: "+this.resturant.getMeals().get(i).getName());
+         out.println("price: "+this.resturant.getMeals().get(i).getPrice());
+         out.println("Describtion: "+this.resturant.getMeals().get(i).getDescribtion());
+         out.println("*---------------------------------------------------------*");
+        }
     }
     
-    public void Edit_remove(int i){
-        this.resturant.meals.remove(i);
+    public void Edit_remove(int s){
+        this.resturant.getMeals().remove(s);
+        out.println("The meal was successfully deleted.\nThe New List: ");
+        for(int i=0 ; i<this.resturant.getMeals().size() ; i++){
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
+         out.println("Name: "+this.resturant.getMeals().get(i).getName());
+         out.println("price: "+this.resturant.getMeals().get(i).getPrice());
+         out.println("Describtion: "+this.resturant.getMeals().get(i).getDescribtion());
+         out.println("*---------------------------------------------------------*");
+        }
     }
     
     public void ListOfMeal(){
-        for(int i=0 ; i<this.resturant.meals.size() ; i++){
-         out.println("*-------------------------("+(i+1)+")---------------------------*");
-         out.println("Name: "+this.resturant.meals.get(i).getName());
-         out.println("price: "+this.resturant.meals.get(i).getPrice());
-         out.println("Describtion: "+this.resturant.meals.get(i).getDescribtion());
+        for(int i=0 ; i<this.resturant.getMeals().size() ; i++){
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
+         out.println("Name: "+this.resturant.getMeals().get(i).getName());
+         out.println("price: "+this.resturant.getMeals().get(i).getPrice());
+         out.println("Describtion: "+this.resturant.getMeals().get(i).getDescribtion());
          out.println("*---------------------------------------------------------*");
+        }
+    }
+    
+    public void Restaurant_Orders(){
+        out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
+        for(int i=0 ; i < this.getResturant().getOrder().size() ; i++){
+         if(this.getResturant().getOrder().get(i).getId_customer()==id_c){
+         out.println("*---------------------------("+(i++)+")---------------------------*");
+         id_c = this.getResturant().getOrder().get(i).getId_customer();
+         out.println("Name: "+project_main.customer.get(id_c).getUserName());
+         out.println("Meal: "+this.getResturant().getOrder().get(i).getMeal().getName());
+         out.println("quantity: "+this.getResturant().getOrder().get(i).getQuantity());
+         out.println("price: "+this.getResturant().getOrder().get(i).getOrder_P());
+         out.println("Date: "+this.getResturant().getOrder().get(i).getDate());
+         out.println("*---------------------------------------------------------*");   
+         }
         }
     }
 }
