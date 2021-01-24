@@ -111,17 +111,26 @@ public class Customer extends Person {
         } 
     }
     
-    public void View_Orders(int id){
+    public boolean View_Orders(int id){
+        int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
         for(int i=0 ; i<project_main.owner.get(id).getResturant().getOrder().size() ; i++){
          if(project_main.owner.get(id).getResturant().getOrder().get(i).getId_customer()==id_c){
-         out.println("*---------------------------("+(i++)+")---------------------------*");
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
          out.println("Meal: "+project_main.owner.get(id).getResturant().getOrder().get(i).getMeal().getName());
          out.println("quantity: "+project_main.owner.get(id).getResturant().getOrder().get(i).getQuantity());
          out.println("price: "+project_main.owner.get(id).getResturant().getOrder().get(i).getOrder_P());
          out.println("Date: "+project_main.owner.get(id).getResturant().getOrder().get(i).getDate());
-         out.println("*---------------------------------------------------------*");   
+         out.println("*---------------------------------------------------------*");
+         flag = 0;
          }
+        }
+        out.println("*---------------------------------------------------------*");
+        if(!(flag==0)){
+            return false;
+        }
+        else{
+            return true;
         }
     }
     
@@ -148,6 +157,7 @@ public class Customer extends Person {
     }
     
     public void View_Orders_C(){
+        int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
         for(int i=0 ; i < project_main.owner.size() ; i++){
             for(int j=0 , k=1 ; j < project_main.owner.get(i).getResturant().getOrder().size() ; j++){
@@ -158,9 +168,14 @@ public class Customer extends Person {
              out.println("quantity: "+project_main.owner.get(i).getResturant().getOrder().get(j).getQuantity());
              out.println("price: "+project_main.owner.get(i).getResturant().getOrder().get(j).getOrder_P());
              out.println("Date: "+project_main.owner.get(i).getResturant().getOrder().get(j).getDate());
-             out.println("*---------------------------------------------------------*");      
+             out.println("*---------------------------------------------------------*");
+             flag = 0;
             }
           }
+        }
+        out.println("*---------------------------------------------------------*");
+        if(!(flag==0)){
+            System.out.println("oops, you don't make an order yet"); 
         }
     }
 }

@@ -98,18 +98,22 @@ public class Owner extends Person {
     }
     
     public void Restaurant_Orders(){
+        int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
         for(int i=0 ; i < this.getResturant().getOrder().size() ; i++){
-         if(this.getResturant().getOrder().get(i).getId_customer()==id_c){
-         out.println("*---------------------------("+(i++)+")---------------------------*");
          id_c = this.getResturant().getOrder().get(i).getId_customer();
+         out.println("*---------------------------("+(i+1)+")---------------------------*");
          out.println("Name: "+project_main.customer.get(id_c).getUserName());
          out.println("Meal: "+this.getResturant().getOrder().get(i).getMeal().getName());
          out.println("quantity: "+this.getResturant().getOrder().get(i).getQuantity());
          out.println("price: "+this.getResturant().getOrder().get(i).getOrder_P());
          out.println("Date: "+this.getResturant().getOrder().get(i).getDate());
-         out.println("*---------------------------------------------------------*");   
-         }
+         out.println("*---------------------------------------------------------*");
+         flag = 0;
+        }
+        out.println("*---------------------------------------------------------*");
+        if(!(flag==0)){
+            System.out.println("Sorry, no one has purchased the restaurant yet"); 
         }
     }
 }

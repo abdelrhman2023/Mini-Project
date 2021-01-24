@@ -17,7 +17,7 @@ import project.otlob.*;
  * @author A.S.A
  */
 public class project_main {
-
+    
     public static String name, password, type, restaurant, phone, address;
     public static int id_w = -1, id_c = -1;
     public static Scanner input = new Scanner(System.in);
@@ -49,7 +49,7 @@ public class project_main {
                     restaurant = input.next();
                     out.println("Please Enter Location Of Restaurant: ");
                     address = input.next();
-                    Restaurant r = new Restaurant(restaurant, address);
+                    r = new Restaurant(restaurant, address);
                     w = new Owner(r, name, password);
                     w.Register();
                     break;
@@ -191,10 +191,10 @@ public class project_main {
         out.println("Please choice the meal you want to buy it.");
         customer.get(id_c).View_Meals((id-1));
         int ch = input.nextInt();
-        m = owner.get(id-1).getResturant().getMeals().get(ch);
+        m = owner.get(id-1).getResturant().getMeals().get(ch-1);
         out.println("Please enter the quantity you want to buy it.");
         int quan = input.nextInt();
-        double mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch).getPrice() ) ;
+        double mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) ;
         customer.get(id_c).setMrCard(-mrcard);
         myDate = LocalDateTime.now();
         myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -217,24 +217,28 @@ public class project_main {
         customer.get(id_c).View_Restaurant();
         int id = input.nextInt();
         out.println("Please choose the order you want to edit it.");
-        customer.get(id_c).View_Orders(id-1);
-        int ord = input.nextInt();
-        double mrcard = owner.get(id-1).getResturant().getOrder().get(ord).getOrder_P();
-        customer.get(id_c).setMrCard(mrcard);
-        out.println("Please choice the meal you want to buy it.");
-        customer.get(id_c).View_Meals((id-1));
-        int ch = input.nextInt();
-        m = owner.get(id-1).getResturant().getMeals().get(ch);
-        out.println("Please enter the quantity you want to buy it.");
-        int quan = input.nextInt();
-        mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch).getPrice() ) ;
-        customer.get(id_c).setMrCard(-mrcard);
-        myDate = LocalDateTime.now();
-        myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String formattedDate = myDate.format(myFormat);
-        // order
-        o = new Order(id_c, m, quan, mrcard, formattedDate);
-        customer.get(id_c).Edit_Orders(id-1, ord, o);
+        if(customer.get(id_c).View_Orders(id-1)){
+            int ord = input.nextInt();
+            double mrcard = owner.get(id-1).getResturant().getOrder().get(ord-1).getOrder_P();
+            customer.get(id_c).setMrCard(mrcard);
+            out.println("Please choice the meal you want to buy it.");
+            customer.get(id_c).View_Meals((id-1));
+            int ch = input.nextInt();
+            m = owner.get(id-1).getResturant().getMeals().get(ch-1);
+            out.println("Please enter the quantity you want to buy it.");
+            int quan = input.nextInt();
+            mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) ;
+            customer.get(id_c).setMrCard(-mrcard);
+            myDate = LocalDateTime.now();
+            myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            String formattedDate = myDate.format(myFormat);
+            // order
+            o = new Order(id_c, m, quan, mrcard, formattedDate);
+            customer.get(id_c).Edit_Orders(id-1, ord-1, o);
+        }
+        else{
+            System.out.println("oops, you don't make an order yet");
+        }
         out.println("Do you want to buy any thing else from this restaurant ?(Y/N)");
             String tx = input.next();
             if ("N".equals(tx) || "n".equals(tx)) {
@@ -249,11 +253,16 @@ public class project_main {
         customer.get(id_c).View_Restaurant();
         int id = input.nextInt();
         out.println("Please choose the order you want to remove it.");
-        customer.get(id_c).View_Orders(id-1);
-        int ord = input.nextInt();
-        double mrcard = owner.get(id-1).getResturant().getOrder().get(ord).getOrder_P();
-        customer.get(id_c).setMrCard(mrcard);
-        customer.get(id_c).Remove_Orders(id-1, ord);
+        if(customer.get(id_c).View_Orders(id-1)){
+            int ord = input.nextInt();
+            double mrcard = owner.get(id-1).getResturant().getOrder().get(ord-1).getOrder_P();
+            customer.get(id_c).setMrCard(mrcard);
+            customer.get(id_c).Remove_Orders(id-1, ord-1);
+        }
+        else{
+            System.out.println("oops, you don't make an order yet");
+        }
+        
     }
     /*----------------------------------------------------------------------*/
     //customer
@@ -261,10 +270,14 @@ public class project_main {
         out.println("Please choose the restaurant you want to print the bill from it.");
         customer.get(id_c).View_Restaurant();
         int id = input.nextInt();
-        out.println("Please choose the order you want to remove it.");
-        customer.get(id_c).View_Orders(id-1);
-        int ord = input.nextInt();
-        customer.get(id_c).Bill(id-1, ord);
+        out.println("Please choose the order you want to print it.");
+        if(customer.get(id_c).View_Orders(id-1)){
+            int ord = input.nextInt();
+            customer.get(id_c).Bill(id-1, ord-1);
+        }
+        else{
+            System.out.println("oops, you don't make an order yet");
+        }
     }
     /*----------------------------------------------------------------------*/
     //customer
@@ -317,14 +330,16 @@ public class project_main {
                                         break;
                                     }
                                 }
+                                break;
                             case "customer":
                                 while (true) { 
-                                    out.println("1- Press(1) to Recharging the mr card.");
+                                    out.println("1- Press(1) to Recharging the mrcard.");
                                     out.println("2- Press(2) to Make an order.");
                                     out.println("3- Press(3) to Edit an order.");
                                     out.println("4- Press(4) to Remove an order.");
                                     out.println("5- Press(5) to view the menu of the restaurants and meals.");
                                     out.println("6- Press(6) to view customer's orders.");
+                                    out.println("7- Press(7) to print bill of order.");
                                     choice = input.nextInt();
                                   switch (choice) {
                                         case 1:
@@ -345,24 +360,29 @@ public class project_main {
                                         case 6:
                                             CustomerOrders();
                                             break;
+                                        case 7:
+                                            PrintBill();
+                                            break;
                                     }
-                                    out.println("Do you want to buy any thing else ?(Y/N)");
+                                    out.println("Do you want to do any thing else ?(Y/N)");
                                     ans = input.next();
                                     if ("N".equals(ans) || "n".equals(ans)) {
                                         break;
                                     }
-                                }
+                                }   
+                        break;
                         }
                     }
                     else{
                         out.println("Make sure the name and password is correct.");
                         break;
                     }
+                    break;
                 case 3:
                     new control.autoGenerationData().generate();
                     break;   
             }
-            out.println("Do you want to exit the application ?");
+            out.println("Do you want to exit the application ?(Y/N)");
             ans = input.next();
             if ("Y".equals(ans) || "y".equals(ans)) {
                 break;
