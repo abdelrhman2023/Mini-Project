@@ -13,6 +13,10 @@ public abstract class Person {
     private String UserName;
     private String Password;
 
+    public Person(String UserName) {
+        this.UserName = UserName;
+    }
+    
     public Person(String UserName, String Password) {
         this.UserName = UserName;
         this.Password = Password;
@@ -34,4 +38,6 @@ public abstract class Person {
         return Password;
     }
     
+    public abstract void Register();
+    public abstract int Login();
 }

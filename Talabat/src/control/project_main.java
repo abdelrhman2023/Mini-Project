@@ -5,6 +5,7 @@
  */
 package control;
 
+import static java.lang.Math.abs;
 import static java.lang.System.out;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,33 +19,54 @@ import project.otlob.*;
  */
 public class project_main {
     
-    public static String name, password, type, restaurant, phone, address;
-    public static int id_w = -1, id_c = -1;
     public static Scanner input = new Scanner(System.in);
-    public static Owner w;
+    public static String name, password, type, restaurant, phone, address;
+    //check (Owner/Customer) id
+    public static int id_w = -1, id_c = -1;
+    //creat (static)obj from each class to use it direct in (main/super/sub) classes
+    public static Owner    w;
     public static Customer c;
-    public static Restaurant r;
-    public static Meal m;
+    public static Meal  m;
     public static Order o;
-    public static List<Owner> owner = new ArrayList<>();
+    public static Restaurant r;
+    public static List<Owner>    owner    = new ArrayList<>();
     public static List<Customer> customer = new ArrayList<>();
     public static LocalDateTime myDate;
     public static DateTimeFormatter myFormat;
 //    myDateObj = LocalDateTime.now();
 //    myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy\nHH:mm:ss");
     /*-----------------------------------------------------------------------*/
+    /*MainRegister(): Registration for (owners / Customers)*/
     public static void MainRegister() {
-        out.println("Please Enter Your Type( owner / customer ): ");
+        out.println("Please Enter Your Type( 1- owner / 2- customer ): ");
         type = input.next();
-        out.println("Please Enter Your Name: ");
-        name = input.next();
-        out.println("Please Enter Your Password: ");
-        password = input.next();
+        boolean FG=true , TC , TW; 
+        while(FG){
+            try{
+                out.println("Please Enter Your Name: ");
+                name = input.next();
+                out.println("Please Enter Your Password: ");
+                password = input.next();
+                w  = new Owner(name);
+                TW = w.CheckName();
+                c  = new Customer(name);
+                TC = c.CheckName();
+                if(TW==true||TC==true){
+                    throw new Execption("This username is already registered, please choose another name.");
+                }
+                else{
+                    FG=false;
+                }
+            }
+            catch(Execption e){
+               out.println("This username is already registered, please choose another name.");
+            }
+        }
         if (null == type) {
             out.println("Please enter the type correctly.");
         } else {
             switch (type) {
-                case "owner":
+                case "1":
                     out.println("Please Enter Name Of Restaurant: ");
                     restaurant = input.next();
                     out.println("Please Enter Location Of Restaurant: ");
@@ -54,7 +76,7 @@ public class project_main {
                     w.Register();
                     break;
 
-                case "customer":
+                case "2":
                     out.println("Please Enter Your Mobile Number: ");
                     phone = input.next();
                     out.println("Please Enter Your Address: ");
@@ -70,8 +92,9 @@ public class project_main {
     }
 
     /*----------------------------------------------------------------------*/
+    /*MainLogin(): checking about (owners / Customers) and return(true) if they exist in lists.*/
     public static boolean MainLogin() {
-        out.println("Please Enter Your Type( owner / customer ): ");
+        out.println("Please Enter Your Type( 1- owner / 2- customer ): ");
         type = input.next();
         out.println("Please Enter Your Name: ");
         name = input.next();
@@ -82,14 +105,14 @@ public class project_main {
             return false;
         } else {
             switch (type) {
-                case "owner":
+                case "1":
                     w = new Owner(name, password);
                     id_w = w.Login();
                     if (id_w == -1) {
                         return false;
                     }
                     return true;
-                case "customer":
+                case "2":
                     c = new Customer(name, password);
                     id_c = c.Login();
                     if (id_c == -1) {
@@ -105,6 +128,7 @@ public class project_main {
 
     /*----------------------------------------------------------------------*/
     //owner
+    /*AddMeal(): Add new meal to restaurant's owner.*/
     public static void AddMeal() {
         String Name, Describtion;
         double Price;
@@ -113,6 +137,7 @@ public class project_main {
         out.println("Please Enter The Price Of Meal: ");
         Price = input.nextDouble();
         out.println("Please Enter The Describtion Of Meal: ");
+        //Data_Bus
         input = new Scanner(System.in);
         Describtion = input.nextLine();
         m = new Meal(Name, Price, Describtion);
@@ -121,6 +146,7 @@ public class project_main {
 
     /*----------------------------------------------------------------------*/
     //owner
+    /*EditMeal(): Replace a new meal with another meal in the restaurant's list.*/
     public static void EditMeal() {
         String Name, Describtion;
         double Price;
@@ -137,6 +163,7 @@ public class project_main {
         out.println("Please Enter The Price Of Meal: ");
         Price = input.nextDouble();
         out.println("Please Enter The Describtion Of Meal: ");
+        //Data Bus
         input = new Scanner(System.in);
         Describtion = input.nextLine();
         m = new Meal(Name, Price, Describtion);
@@ -145,6 +172,7 @@ public class project_main {
 
     /*----------------------------------------------------------------------*/
     //owner
+    /*RemoveMeal(): Remove a meal from the restaurant's list.*/
     public static void RemoveMeal() {
         int num;
         out.println("Please Enter The Number Of Meal Of The Following: ");
@@ -159,30 +187,36 @@ public class project_main {
 
     /*----------------------------------------------------------------------*/
     //owner
+    /*ViewMeals(): Print the restaurant list of meals*/
     public static void ViewMeals() {
         owner.get(id_w).ListOfMeal();
     }
 
     /*----------------------------------------------------------------------*/
     //owner
+    /*RestaurantOrders(): Print all restaurant's orders.*/
     public static void RestaurantOrders() {
         owner.get(id_w).Restaurant_Orders();
     }
 
     /*----------------------------------------------------------------------*/
     //customer
+    /*Recharging(): Charging My_Card to buy anything from the application.*/
     public static void Recharging(){
         System.out.println("Enter the amount of money which want to deposit it.");
         double amount = input.nextInt();
         customer.get(id_c).setMrCard(amount);
+        System.out.print("Done\nYour money = "+customer.get(id_c).getMrCard());
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*Menu(): Print the Menu of restaurants*/
     public static void Menu(){
         customer.get(id_c).View_Menu();
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*MakeOrder(): To make orders from any restaurant.*/
     public static void MakeOrder(){
         out.println("Please choose the restaurant you want to buy from it.");
         customer.get(id_c).View_Restaurant();
@@ -191,28 +225,37 @@ public class project_main {
         out.println("Please choice the meal you want to buy it.");
         customer.get(id_c).View_Meals((id-1));
         int ch = input.nextInt();
+        //meal
         m = owner.get(id-1).getResturant().getMeals().get(ch-1);
         out.println("Please enter the quantity you want to buy it.");
         int quan = input.nextInt();
-        double mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) ;
-        customer.get(id_c).setMrCard(-mrcard);
+        double mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) * -1 ;
+        if(abs(mrcard)<=customer.get(id_c).getMrCard()){
+        customer.get(id_c).setMrCard(mrcard);
+        System.out.println("Your money now = "+customer.get(id_c).getMrCard());
         myDate = LocalDateTime.now();
         myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String formattedDate = myDate.format(myFormat);
-        // order
-        o = new Order(id_c, m, quan, mrcard, formattedDate);
+        //order
+        o = new Order(id_c, m, quan, (-1*mrcard), formattedDate);
         customer.get(id_c).Add_Orders(id-1, o);
-        out.println("Do you want to buy any thing else from this restaurant ?(Y/N)");
-            String tx = input.next();
-            if ("N".equals(tx) || "n".equals(tx)) {
-                break;
-            }
         }
+        else{
+            out.println("sorry, your money don't enough.");
+        }
+        out.println("Do you want to buy any thing else from this restaurant ?(Y/N)");
+        String tx = input.next();
+        if ("N".equals(tx) || "n".equals(tx)) {
+            break;
+        }
+       }
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*EditOrder(): make an order instead of another order from the same restaurant*/
     public static void EditOrder(){
         while(true){
+        //validations
         out.println("Please choose the restaurant you want to edit the order from it.");
         customer.get(id_c).View_Restaurant();
         int id = input.nextInt();
@@ -221,20 +264,30 @@ public class project_main {
             int ord = input.nextInt();
             double mrcard = owner.get(id-1).getResturant().getOrder().get(ord-1).getOrder_P();
             customer.get(id_c).setMrCard(mrcard);
+            System.out.println("Your money now = "+customer.get(id_c).getMrCard());
+            
+            //make order instead of another order 
             out.println("Please choice the meal you want to buy it.");
             customer.get(id_c).View_Meals((id-1));
             int ch = input.nextInt();
             m = owner.get(id-1).getResturant().getMeals().get(ch-1);
             out.println("Please enter the quantity you want to buy it.");
             int quan = input.nextInt();
-            mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) ;
-            customer.get(id_c).setMrCard(-mrcard);
+            mrcard = quan * ( owner.get(id-1).getResturant().getMeals().get(ch-1).getPrice() ) * -1 ;
+            if(abs(mrcard)<=customer.get(id_c).getMrCard()){
+            customer.get(id_c).setMrCard(mrcard);
+            System.out.println("Your money now = "+customer.get(id_c).getMrCard());
             myDate = LocalDateTime.now();
             myFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             String formattedDate = myDate.format(myFormat);
             // order
-            o = new Order(id_c, m, quan, mrcard, formattedDate);
+            o = new Order(id_c, m, quan, (-1*mrcard), formattedDate);
             customer.get(id_c).Edit_Orders(id-1, ord-1, o);
+            }
+            else{
+                out.println("sorry, your money don't enough.");
+
+            }
         }
         else{
             System.out.println("oops, you don't make an order yet");
@@ -248,6 +301,7 @@ public class project_main {
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*RemoveOrder(): Remove an order from the customer's orders list*/
     public static void RemoveOrder(){
         out.println("Please choose the restaurant you want to remove the order from it.");
         customer.get(id_c).View_Restaurant();
@@ -257,6 +311,7 @@ public class project_main {
             int ord = input.nextInt();
             double mrcard = owner.get(id-1).getResturant().getOrder().get(ord-1).getOrder_P();
             customer.get(id_c).setMrCard(mrcard);
+            System.out.println("Your money now = "+customer.get(id_c).getMrCard());
             customer.get(id_c).Remove_Orders(id-1, ord-1);
         }
         else{
@@ -266,6 +321,7 @@ public class project_main {
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*PrintBill(): Print bill from a specific restaurant.*/
     public static void PrintBill(){
         out.println("Please choose the restaurant you want to print the bill from it.");
         customer.get(id_c).View_Restaurant();
@@ -281,16 +337,29 @@ public class project_main {
     }
     /*----------------------------------------------------------------------*/
     //customer
+    /*CustomerOrders(): Print all Customer's orders.*/
     public static void CustomerOrders(){
         customer.get(id_c).View_Orders_C();
     }
     /*----------------------------------------------------------------------*/
+    //customer
+    /*SearchRestaurant(): search about specific restaurant.*/
+    public static void SearchRestaurant(){
+        out.println("Please Enter Name Of Restaurant: ");
+        input = new Scanner(System.in);
+        restaurant = input.next();
+        if(customer.get(id_c).Search_Restaurant(restaurant)==false){
+            System.out.println("this restaurant does not found.");
+        }
+    }
+    /*----------------------------------------------------------------------*/
     public static void main(String[] args) {
+        new autoGenerationData().generate();
         int choice;
         String ans;
         while (true) {
-            out.println("....Welcome To Otlob Online....");
-            out.println("Please choice (Register | Login | FillData):\n1-Register\t\t2-Login\t\t3-FillData");
+            out.println("....Welcome To Talabat Online....");
+            out.println("Please choice (Register | Login):\n1-Register\t\t2-Login");
             choice = input.nextInt();
             switch (choice) {
                 case 1:
@@ -299,7 +368,7 @@ public class project_main {
                 case 2:
                     if (MainLogin()) {
                         switch (type) {
-                            case "owner":
+                            case "1":
                                 while (true) {
                                     out.println("1- Press(1) to add a meal.");
                                     out.println("2- Press(2) to edit a meal.");
@@ -331,7 +400,7 @@ public class project_main {
                                     }
                                 }
                                 break;
-                            case "customer":
+                            case "2":
                                 while (true) { 
                                     out.println("1- Press(1) to Recharging the mrcard.");
                                     out.println("2- Press(2) to Make an order.");
@@ -340,6 +409,7 @@ public class project_main {
                                     out.println("5- Press(5) to view the menu of the restaurants and meals.");
                                     out.println("6- Press(6) to view customer's orders.");
                                     out.println("7- Press(7) to print bill of order.");
+                                    out.println("8- Press(8) to search about specific restaurant.");
                                     choice = input.nextInt();
                                   switch (choice) {
                                         case 1:
@@ -363,6 +433,9 @@ public class project_main {
                                         case 7:
                                             PrintBill();
                                             break;
+                                        case 8:
+                                            SearchRestaurant();
+                                            break;
                                     }
                                     out.println("Do you want to do any thing else ?(Y/N)");
                                     ans = input.next();
@@ -377,10 +450,7 @@ public class project_main {
                         out.println("Make sure the name and password is correct.");
                         break;
                     }
-                    break;
-                case 3:
-                    new control.autoGenerationData().generate();
-                    break;   
+                    break;    
             }
             out.println("Do you want to exit the application ?(Y/N)");
             ans = input.next();
@@ -389,6 +459,12 @@ public class project_main {
             }
         }
 
+    }
+
+    private static class Execption extends Exception {
+
+        public Execption(String this_username_is_already_registered_pleas) {
+        }
     }
     
 }

@@ -17,6 +17,10 @@ public class Customer extends Person {
     private String MobileNumber;
     private String Address;
 
+    public Customer( String UserName) {
+        super(UserName);
+    }
+    
     public Customer( String UserName, String Password) {
         super(UserName, Password);
     }
@@ -54,12 +58,15 @@ public class Customer extends Person {
     }
     
     
-    
+    /*Register(): to add new customer to customers list.*/
+    @Override
     public void Register(){
         project_main.customer.add(this);
         out.println("Your Registeration Is Successfully");
     }
     
+    /*Login(): search to check (user name / password) and return id.*/
+    @Override
     public int Login(){
         
         for(int i=0 ; i<project_main.customer.size() ; i++){
@@ -72,9 +79,17 @@ public class Customer extends Person {
         return -1;
     }
     
+    /*CheckName(): search to check (user name if it is already registered) and (true) if it is registered.*/
+    public boolean CheckName(){
+        for(int i=0 ; i<project_main.customer.size() ; i++){
+            if(project_main.customer.get(i).getUserName().equals(this.getUserName())){
+                return true;
+            }
+        }
+        return false;
+    }
     
-    
-    
+    /*View_Restaurant(): Print all restaurants which in application.*/
     public void View_Restaurant(){
         out.println("**---------------------------Restaurants---------------------------**");
         for(int i=0 ; i<project_main.owner.size() ; i++){
@@ -82,6 +97,7 @@ public class Customer extends Person {
         }
     }
     
+    /*View_Meals(int id): Print the meals of a specific restaurant.*/
     public void View_Meals(int id){
         out.println("**-------------------------\\/\\/Meals\\/\\/---------------------------**");
         for(int i=0 ; i<project_main.owner.get(id).getResturant().getMeals().size() ; i++){
@@ -93,6 +109,7 @@ public class Customer extends Person {
         }
     }
     
+    /*View_Menu(): Print the restaurants and their meals.*/
     public void View_Menu(){
         for(int i=0 ; i<project_main.owner.size() ; i++){
          
@@ -111,6 +128,7 @@ public class Customer extends Person {
         } 
     }
     
+    /*View_Orders(int id): check if a customer ordered any meals and (print all orders) and return(true) if there exist orders.*/
     public boolean View_Orders(int id){
         int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
@@ -134,18 +152,22 @@ public class Customer extends Person {
         }
     }
     
+    /*Add_Orders(int id, Order m): Add order to restaurant's orders.*/
     public void Add_Orders(int id, Order m){
         project_main.owner.get(id).getResturant().getOrder().add(m);
     }
     
+    /*Edit_Orders(int id, int i, Order m): Edit order in restaurant's orders.*/
     public void Edit_Orders(int id, int i, Order m){
         project_main.owner.get(id).getResturant().getOrder().set(i, m);
     }
     
+    /*Remove_Orders(int id , int i): Remove order from the restaurant's orders*/
     public void Remove_Orders(int id , int i){
         project_main.owner.get(id).getResturant().getOrder().remove(i);
     }
     
+    /*Bill(int id , int i): Print bill of meal from a specific restaurant*/
     public void Bill(int id , int i){
          out.println("*---------------------------(Bill Of Meal)---------------------------*");
          out.println("Restaurant Name : "+project_main.owner.get(id).getResturant().getRestaurantName());
@@ -156,6 +178,7 @@ public class Customer extends Person {
          out.println("*---------------------------------------------------------*");
     }
     
+    /*View_Orders_C(): Print all orders which Customer ordered.*/
     public void View_Orders_C(){
         int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
@@ -177,5 +200,22 @@ public class Customer extends Person {
         if(!(flag==0)){
             System.out.println("oops, you don't make an order yet"); 
         }
+    }
+    
+    public boolean Search_Restaurant(String a){
+        for(int i=0 ; i<project_main.owner.size() ; i++){
+            if(a.equals(project_main.owner.get(i).getResturant().getRestaurantName())){
+                out.println("**---------------------------("+project_main.owner.get(i).getResturant().getRestaurantName()+")---------------------------**");
+                for(int j=0 ; j<project_main.owner.get(i).getResturant().getMeals().size() ; j++){ 
+                    out.println("*---------------------------("+(j+1)+")---------------------------*");
+                    out.println("Name: "+project_main.owner.get(i).getResturant().getMeals().get(j).getName());
+                    out.println("price: "+project_main.owner.get(i).getResturant().getMeals().get(j).getPrice());
+                    out.println("Describtion: "+project_main.owner.get(i).getResturant().getMeals().get(j).getDescribtion());
+                    out.println("*---------------------------------------------------------*");
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -14,8 +14,12 @@ import static java.lang.System.out;
  * @author A.S.A
  */
 public class Owner extends Person {
+    
     private Restaurant resturant ;
- 
+    
+    public Owner(String UserName) {
+        super(UserName);
+    }
     
     public Owner(String UserName, String Password) {
         super(UserName, Password);
@@ -34,12 +38,15 @@ public class Owner extends Person {
         this.resturant = resturant;
     }
     
-    
+    /*Register(): to add new owner to owners list.*/
+    @Override
     public void Register(){
         project_main.owner.add(this);
         out.println("Your Registeration Is Successfully");
     }
     
+    /*Login(): search to check (user name / password) and return id.*/
+    @Override
     public int Login(){
         for(int i=0 ; i<project_main.owner.size() ; i++){
             if(project_main.owner.get(i).getUserName().equals(this.getUserName()) && project_main.owner.get(i).getPassword().equals(this.getPassword())){
@@ -51,6 +58,17 @@ public class Owner extends Person {
         return -1;
     }
     
+    /*CheckName(): search to check (user name if it is already registered) and (true) if it is registered.*/
+    public boolean CheckName(){
+        for(int i=0 ; i<project_main.owner.size() ; i++){
+            if(project_main.owner.get(i).getUserName().equals(this.getUserName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /*Edit_Add(Meal e): Add a new meal to the restaurant's list and print a new list after modifying.*/
     public void Edit_Add(Meal e){
         this.resturant.getMeals().add(e);
         out.println("The meal was successfully added.\nThe New List: ");
@@ -63,6 +81,7 @@ public class Owner extends Person {
         }
     }
     
+    /*Edit_Set(Meal e,int s): Replace a new meal with another meal in the restaurant's list and print a new list after modifying.*/
     public void Edit_Set(Meal e,int s){
         this.resturant.getMeals().set(s,e);
         out.println("The meal was successfully modified.\nThe New List: ");
@@ -75,6 +94,7 @@ public class Owner extends Person {
         }
     }
     
+    /*Edit_remove(int s): Remove a meal from the restaurant's list and print a new list after modifying.*/
     public void Edit_remove(int s){
         this.resturant.getMeals().remove(s);
         out.println("The meal was successfully deleted.\nThe New List: ");
@@ -87,6 +107,7 @@ public class Owner extends Person {
         }
     }
     
+    /*ListOfMeal(): Print the restaurant list of meals*/
     public void ListOfMeal(){
         for(int i=0 ; i<this.resturant.getMeals().size() ; i++){
          out.println("*---------------------------("+(i+1)+")---------------------------*");
@@ -97,6 +118,7 @@ public class Owner extends Person {
         }
     }
     
+    /*Restaurant_Orders(): Print all restaurant's orders*/
     public void Restaurant_Orders(){
         int flag = 1;
         out.println("**-------------------------\\/\\/orders\\/\\/---------------------------**");
